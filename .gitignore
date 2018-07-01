@@ -1,4 +1,4 @@
-.serverless
+config.json
 node_modules
 jspm_packages
 .serverless
@@ -7,6 +7,5 @@ jspm_packages
 .webpack
 .aws
 dist
-.serverless
 .DS_Store
 package-lock.json
