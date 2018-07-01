@@ -1,9 +1,12 @@
-# package directories
+.serverless
 node_modules
 jspm_packages
-
-# Serverless directories
 .serverless
-.aws
+.was
+.web pack
 .webpack
+.aws
 dist
+.serverless
+.DS_Store
+package-lock.json
