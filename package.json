@@ -1,0 +1,29 @@
+{
+  "name": "quality-mail-service",
+  "version": "1.0.0",
+  "description": "AWS SES in NodeJS using lambda",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Rhyndress",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.266.1",
+    "babel-runtime": "^6.26.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.5",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2017": "^6.24.1",
+    "eslint": "^5.0.1",
+    "json-loader": "^0.5.7",
+    "request": "^2.87.0",
+    "serverless": "^1.27.3",
+    "serverless-webpack": "^5.1.5",
+    "webpack": "^4.14.0"
+  }
+}
