@@ -16,25 +16,29 @@ const mailer = new MailManager(new AWS.SES()); //set AWS.SES as our mailer
 
 // The function to send SES email message
 exports.sendEmail = (event, context, callback) => {
-	let reqfields = ['bodyData', 'toEmailAddresses', 'sourceEmail']
-	//Validate POST
+	
+	//region Validate POST
+	let reqfields = ['bodyData', 'toEmailAddresses', 'sourceEmail'];
+	
 	if (
 		!(
 			// Define valid response, body in event with required fields
 			('body' in event) && (reqfields.every((p) => p in event.body && event.body[p] !== ""))
 		)
 	) {
-		//Not a valid response
-		callback(new Error(`Missing required parameters. Required fields include: ${reqfields.join(', ')}`));
-		// callback(null, {
-		// 	errorType : "InvalidParameterException",
-		// 	statusCode : 400,
-		// 	errorMessage : `Missing required parameters. Required fields include: ${reqfields.join(', ')}`
-		// });
 		
+		//Missing params
+		callback(null, {
+			"message": `Missing required parameters. Required fields include: ${reqfields.join(', ')}`,
+			"code": "InvalidParameterException",
+			"statusCode": 400,
+			"retryable": true
+		});		
 	}
+	//endregion Validate POST
 	
-	//Fields
+	
+	//region assign fields to vars with defaults
 	let bccEmailAddresses = event.body.bccEmailAddresses || [];
 	let ccEmailAddresses = event.body.ccEmailAddresses  || [];
 	let toEmailAddresses = event.body.toEmailAddresses;
@@ -44,8 +48,10 @@ exports.sendEmail = (event, context, callback) => {
 	let subjectCharset = event.body.subjectCharset  || 'UTF-8';
 	let sourceEmail = event.body.sourceEmail;
 	let replyToAddresses = event.body.replyToAddresses || [toEmailAddresses];
-
-	// The parameters for sending mail using sendEmail()
+	//endregion assign fields to vars with defaults
+	
+	
+	// region define email object
 	let emailParams = {
 		Destination: {
 			BccAddresses: bccEmailAddresses,
@@ -67,23 +73,15 @@ exports.sendEmail = (event, context, callback) => {
 		Source: sourceEmail,
 		ReplyToAddresses: replyToAddresses
 	};
+	// endregion define email object
 	
+	
+	// region send mail
 	mailer.deliver(emailParams, function (err, data) {
-		if (err) {
-			console.log(err, err.stack);
-			callback(err);
-		} else {
-			console.log("Mail delivered successfully!");
-			console.log(data);
-		}
+		callback(null, err || {
+			statusCode: 200,
+			message: 'Mail sent successfully',
+		});
 	});
-	
-	// the response to send back after email success.
-	callback(null, {
-		statusCode: 200,
-		body: 'Mail sent successfully',
-		headers: {
-			'Content-Type': 'application/json',
-		}
-	});	
+	// endregion send mail
 };
