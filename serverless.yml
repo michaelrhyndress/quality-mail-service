@@ -20,10 +20,10 @@ provider:
   usagePlan:
     quota:
       limit: 50000
-      offset: 2
+      offset: 0
       period: DAY
     throttle:
-      burstLimit: 200
+      burstLimit: 14
       rateLimit: 14
   stackTags:
     stack: quality-mail-service
