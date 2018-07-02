@@ -38,40 +38,27 @@ exports.sendEmail = (event, context, callback) => {
 	//endregion Validate POST
 	
 	
-	//region assign fields to vars with defaults
-	let bccEmailAddresses = event.body.bccEmailAddresses || [];
-	let ccEmailAddresses = event.body.ccEmailAddresses  || [];
-	let toEmailAddresses = event.body.toEmailAddresses;
-	let bodyData = event.body.bodyData;
-	let bodyCharset = event.body.bodyCharset || 'UTF-8';
-	let subjectData = event.body.subjectData || '';
-	let subjectCharset = event.body.subjectCharset  || 'UTF-8';
-	let sourceEmail = event.body.sourceEmail;
-	let replyToAddresses = event.body.replyToAddresses || [toEmailAddresses];
-	//endregion assign fields to vars with defaults
-	
-	
 	// region define email object
 	let emailParams = {
 		Destination: {
-			BccAddresses: bccEmailAddresses,
-			CcAddresses: ccEmailAddresses,
-			ToAddresses: toEmailAddresses
+			BccAddresses: event.body.bccEmailAddresses || [],
+			CcAddresses: event.body.ccEmailAddresses  || [],
+			ToAddresses: event.body.toEmailAddresses
 		},
 		Message: {
 			Body: {
 				Text: {
-					Data: bodyData,
-					Charset: bodyCharset
+					Data: event.body.bodyData,
+					Charset: event.body.bodyCharset || 'UTF-8'
 				}
 			},
 			Subject: {
-				Data: subjectData,
-				Charset: subjectCharset
+				Data: event.body.subjectData || '',
+				Charset: event.body.subjectCharset  || 'UTF-8'
 			}
 		},
-		Source: sourceEmail,
-		ReplyToAddresses: replyToAddresses
+		Source: event.body.sourceEmail,
+		ReplyToAddresses: event.body.replyToAddresses || [event.body.sourceEmail]
 	};
 	// endregion define email object
 	
