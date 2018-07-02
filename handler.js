@@ -1,7 +1,8 @@
 'use strict';
 
 // importing AWS sdk
-import AWS from 'aws-sdk';
+//import AWS from 'aws-sdk';
+import SES from 'aws-sdk/clients/ses';
 import MailManager from './src/mailer';
 //import request from 'request';
 //import config from './config.json';
@@ -13,7 +14,7 @@ import MailManager from './src/mailer';
 // 	region: config.aws.region
 // });
 
-const mailer = new MailManager(new AWS.SES({region: 'us-east-1'})); //set AWS.SES as our mailer
+const mailer = new MailManager(new SES({region: 'us-east-1'})); //set AWS.SES as our mailer
 
 // The function to send SES email message
 exports.sendEmail = (event, context, callback) => {
