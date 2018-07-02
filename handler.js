@@ -4,7 +4,8 @@
 import AWS from 'aws-sdk';
 import MailManager from './src/mailer';
 import request from 'request';
-// import config from './config.json';
+import config from './config.json';
+
 
 // AWS.config.update({
 // 	accessKeyId: config.aws.accessKeyId,
@@ -12,7 +13,7 @@ import request from 'request';
 // 	region: config.aws.region
 // });
 
-const mailer = new MailManager(new AWS.SES()); //set AWS.SES as our mailer
+const mailer = new MailManager(new AWS.SES({region: config.aws.region})); //set AWS.SES as our mailer
 
 // The function to send SES email message
 exports.sendEmail = (event, context, callback) => {
