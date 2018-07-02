@@ -3,7 +3,7 @@
 // importing AWS sdk
 import AWS from 'aws-sdk';
 import MailManager from './src/mailer';
-import request from 'request';
+//import request from 'request';
 //import config from './config.json';
 
 
