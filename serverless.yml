@@ -19,12 +19,12 @@ provider:
       Resource: "*"
   usagePlan:
     quota:
-      limit: 10000
+      limit: 50000
       offset: 2
-      period: MONTH
+      period: DAY
     throttle:
       burstLimit: 200
-      rateLimit: 100
+      rateLimit: 14
   stackTags:
     stack: quality-mail-service
 
