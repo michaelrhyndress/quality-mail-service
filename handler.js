@@ -47,7 +47,7 @@ exports.sendEmail = (event, context, callback) => {
 		},
 		Message: {
 			Body: {
-				Text: {
+				Html: {
 					Data: event.body.bodyData,
 					Charset: event.body.bodyCharset || 'UTF-8'
 				}
@@ -58,7 +58,7 @@ exports.sendEmail = (event, context, callback) => {
 			}
 		},
 		Source: event.body.sourceEmail,
-		ReplyToAddresses: event.body.replyToAddresses || [event.body.sourceEmail]
+		ReplyToAddresses: event.body.replyToAddresses || [event.body.toEmailAddresses]
 	};
 	// endregion define email object
 	
