@@ -7,7 +7,7 @@ provider:
   region: us-east-1
   stackName: quality-mail-service
   apiName: quality-mail-service
-  memorySize: 512 #default is 1024
+  memorySize: 128 #default is 1024
   timeout: 5 #default 6
   endpointType: regional #default is edge
   iamRoleStatements:
