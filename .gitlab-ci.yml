@@ -14,4 +14,4 @@ deploy:
   script:
    - npm install
    - npm install -g serverless
-   - serverless deploy --stage production
+   - serverless deploy
