@@ -3,7 +3,7 @@
 // importing AWS sdk
 import SES from "aws-sdk/clients/ses";
 import MailManager from "./src/mailer";
-import ResponseBuilder from "./src/ResponseBuilder";
+import responseBuilder from "./src/responseBuilder";
 
 const mailer = new MailManager(new SES({region: "us-east-1"})); //set AWS.SES as our mailer
 
@@ -20,7 +20,7 @@ exports.sendEmail = (event, context, callback) => {
 		)
 	) {
 		//Missing params
-		let response = ResponseBuilder(
+		let response = responseBuilder(
 		    400,
 		    `Missing required parameters. Required fields include: ${reqfields.join(", ")}`,
 		    {
@@ -34,7 +34,7 @@ exports.sendEmail = (event, context, callback) => {
 	//endregion Validate POST
 	
 	if (honeyPotField in event.body && event.body[honeyPotField] !== "") {
-    	    let response = ResponseBuilder(
+    	    let response = responseBuilder(
     		    400,
     		    "Invalid request",
     		    {
@@ -74,7 +74,7 @@ exports.sendEmail = (event, context, callback) => {
 	
 	// region send mail
 	mailer.deliver(emailParams, function (err, data) {
-		let response = ResponseBuilder(200, "Mail sent successfully", err); //If error it will overwrite success
+		let response = responseBuilder(200, "Mail sent successfully", err); //If error it will overwrite success
 		callback(null, response);
 	});
 	// endregion send mail
