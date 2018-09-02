@@ -12,7 +12,8 @@ exports.sendEmail = (event, context, callback) => {
     //region Validate POST
     let honeyPotField = "qms-email-check";
     let reqfields = ["bodyData", "toEmailAddresses", "sourceEmail"];
-    let response = undefined;
+    let response;
+    
     // Define valid response, body in event with required fields
     if (!(("body" in event) &&
         (reqfields.every((p) => p in event.body && event.body[p] !== "")))
@@ -26,7 +27,6 @@ exports.sendEmail = (event, context, callback) => {
                 retryable: true
             }
         );
-        console.log(response);
         callback(null, response);
     }
     //endregion Validate POST
@@ -40,8 +40,6 @@ exports.sendEmail = (event, context, callback) => {
                 retryable: true
             }
             );
-
-        console.log(response);
         callback(null, response);
     }
 
