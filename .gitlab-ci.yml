@@ -1,0 +1,16 @@
+# define a default docker image for all jobs
+image: node:latest
+
+stages:
+  - deploy
+
+# This folder is cached between builds
+cache:
+  paths:
+  - node_modules/
+
+deploy:
+  stage: deploy
+  script:
+   - npm install
+   - serverless deploy --stage production
