@@ -1,35 +1,51 @@
-'use strict';
+"use strict";
 
 // importing AWS sdk
-//import AWS from 'aws-sdk';
-import SES from 'aws-sdk/clients/ses';
-import MailManager from './src/mailer';
+import SES from "aws-sdk/clients/ses";
+import MailManager from "./src/mailer";
+import ResponseBuilder from "./src/ResponseBuilder";
 
-const mailer = new MailManager(new SES({region: 'us-east-1'})); //set AWS.SES as our mailer
+const mailer = new MailManager(new SES({region: "us-east-1"})); //set AWS.SES as our mailer
 
 // The function to send SES email message
 exports.sendEmail = (event, context, callback) => {
-	
 	//region Validate POST
-	let reqfields = ['bodyData', 'toEmailAddresses', 'sourceEmail'];
-	
+	let honeyPotField = "qms-email-check",
+	    reqfields = ["bodyData", "toEmailAddresses", "sourceEmail"];
+	    
 	if (
 		!(
 			// Define valid response, body in event with required fields
-			('body' in event) && (reqfields.every((p) => p in event.body && event.body[p] !== ""))
+			("body" in event) && (reqfields.every((p) => p in event.body && event.body[p] !== ""))
 		)
 	) {
-		
 		//Missing params
-		callback(null, {
-			"message": `Missing required parameters. Required fields include: ${reqfields.join(', ')}`,
-			"code": "InvalidParameterException",
-			"statusCode": 400,
-			"retryable": true
-		});		
+		let response = ResponseBuilder(
+		    400,
+		    `Missing required parameters. Required fields include: ${reqfields.join(", ")}`,
+		    {
+			    code: "InvalidParameterException",
+			    retryable: true
+		    }
+		);
+		console.log(response);
+		callback(null, response);
 	}
 	//endregion Validate POST
 	
+	if (honeyPotField in event.body && event.body[honeyPotField] !== "") {
+    	    let response = ResponseBuilder(
+    		    400,
+    		    "Invalid request",
+    		    {
+    			    code: "InvalidParameterException",
+    			    retryable: true
+    		    }
+    		);
+    		
+    		console.log(response);
+		    callback(null, response);
+	}
 	
 	// region define email object
 	let emailParams = {
@@ -42,12 +58,12 @@ exports.sendEmail = (event, context, callback) => {
 			Body: {
 				Html: {
 					Data: event.body.bodyData,
-					Charset: event.body.bodyCharset || 'UTF-8'
+					Charset: event.body.bodyCharset || "UTF-8"
 				}
 			},
 			Subject: {
-				Data: event.body.subjectData || '',
-				Charset: event.body.subjectCharset  || 'UTF-8'
+				Data: event.body.subjectData || "",
+				Charset: event.body.subjectCharset  || "UTF-8"
 			}
 		},
 		Source: event.body.sourceEmail,
@@ -58,10 +74,8 @@ exports.sendEmail = (event, context, callback) => {
 	
 	// region send mail
 	mailer.deliver(emailParams, function (err, data) {
-		callback(null, err || {
-			statusCode: 200,
-			message: 'Mail sent successfully',
-		});
+		let response = ResponseBuilder(200, "Mail sent successfully", err); //If error it will overwrite success
+		callback(null, response);
 	});
 	// endregion send mail
 };
