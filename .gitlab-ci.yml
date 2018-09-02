@@ -12,5 +12,5 @@ cache:
 deploy:
   stage: deploy
   script:
-   - npm install
+   - npm install -g
    - serverless deploy --stage production
