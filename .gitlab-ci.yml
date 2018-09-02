@@ -1,5 +1,5 @@
 # define a default docker image for all jobs
-image: node:latest
+image: node:10.6.0
 
 stages:
   - deploy
