@@ -26,7 +26,7 @@ provider:
       burstLimit: 14
       rateLimit: 14
   stackTags:
-    stack: quality-mail-service
+    STACK: quality-mail-service
 
 plugins:
   - serverless-webpack
@@ -37,8 +37,8 @@ functions:
     handler: handler.sendEmail
     description: Send email using SES service.
     tags:
-      function: sendEmail
-      stack: quality-mail-service
+      FUNCTION: sendEmail
+      STACK: quality-mail-service
     events:
       - http:
           path: sendEmail
