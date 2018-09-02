@@ -13,5 +13,5 @@ deploy:
   stage: deploy
   script:
    - npm install
-   - npm install -g serverless
+   - npm install -g serverless@1.27.3
    - serverless deploy
