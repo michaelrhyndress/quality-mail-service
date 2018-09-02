@@ -1,6 +1,6 @@
 "use strict";
 
-export const ResponseBuilder = (status, message, overrides) => {
+export const responseBuilder = (status, message, overrides) => {
         return Object.assign({}, {
 			"message": message,
 			"statusCode": status,
