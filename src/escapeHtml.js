@@ -1,6 +1,6 @@
  "use strict";
 
-export default function escapeHTML(unsafe) {
+export default function escapeHtml(unsafe) {
 	return unsafe
 	.replace(/&/g, "&amp;")
 	.replace(/</g, "&lt;")
