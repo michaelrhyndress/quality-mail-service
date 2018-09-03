@@ -15,9 +15,9 @@ exports.sendEmail = (event, context, callback) => {
     let response;
     
     // Define valid response, body in event with required fields
-    if (!(("body" in event) &&
-        (reqfields.every((p) => p in event.body && event.body[p] !== "")))
-    ){
+    if (!("body" in event &&
+        reqfields.every((p) => p in event.body && event.body[p] !== "")))
+    {
         //Missing params
         response = responseBuilder(
             400,
