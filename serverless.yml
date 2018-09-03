@@ -38,11 +38,11 @@ functions:
     handler: handler.sendEmail
     description: Send email using SES service.
     tags:
-      FUNCTION: sendEmail
+      ENDPOINT: send-email
       STACK: quality-mail-service
     events:
       - http:
-          path: sendEmail
+          path: send-email
           method: post
           integration: lambda
           cors: true
