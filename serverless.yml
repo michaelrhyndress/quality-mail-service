@@ -54,6 +54,7 @@ functions:
 custom:
   customDomain:
     domainName: api.qualitydepiction.com
+    basePath: 'v1'
     stage: ${self:provider.stage}
     createRoute53Record: false
     endpointType: regional
