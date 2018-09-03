@@ -30,6 +30,7 @@ provider:
 
 plugins:
   - serverless-webpack
+  - serverless-domain-manager
 
 functions:
   sendEmail:
@@ -49,3 +50,10 @@ functions:
           response:
             headers:
               Access-Control-Allow-Origin: "'*'"
+
+custom:
+  customDomain:
+    domainName: api.qualitydepiction.com
+    stage: ${self:provider.stage}
+    createRoute53Record: false
+    endpointType: regional
