@@ -10,9 +10,9 @@ const mailer = new MailManager(new SES({region: "us-east-1"})); //set AWS.SES as
 // The function to send SES email message
 exports.sendEmail = (event, context, callback) => {
     //region Validate POST
-    let honeyPotField = "qms-email-check";
-    let reqfields = ["bodyData", "toEmailAddresses", "sourceEmail"];
-    let response;
+    var honeyPotField = "qms-email-check",
+        reqfields = ["bodyData", "toEmailAddresses", "sourceEmail"],
+        response;
     
     // Define valid response, body in event with required fields
     if (!("body" in event &&
