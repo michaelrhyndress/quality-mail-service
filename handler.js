@@ -37,7 +37,7 @@ exports.sendEmail = (event, context, callback) => {
             "Invalid request",
             {
                 code: "InvalidParameterException",
-                retryable: true
+                retryable: false
             }
             );
         callback(null, response);
