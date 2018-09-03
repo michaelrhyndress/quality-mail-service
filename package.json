@@ -23,6 +23,7 @@
     "json-loader": "^0.5.7",
     "request": "^2.87.0",
     "serverless": "^1.27.3",
+    "serverless-domain-manager": "^2.6.0",
     "serverless-webpack": "^5.1.5",
     "webpack": "^4.14.0"
   }
