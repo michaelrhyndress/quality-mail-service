@@ -9,17 +9,43 @@ const mailer = new MailManager(new SES({region: "us-east-1"})); //set AWS.SES as
 
 // The function to send SES email message
 exports.sendEmail = (event, context, callback) => {
-    //region Validate POST
-    var honeyPotField = "qms-email-check",
-        reqfields = ["bodyData", "toEmailAddresses", "sourceEmail"],
-        response;
-    
-    // Define valid response, body in event with required fields
-    if (!("body" in event &&
-        reqfields.every((p) => p in event.body && event.body[p] !== "")))
-    {
+    if (!"body" in event) {
         //Missing params
         response = responseBuilder(
+            400,
+            "Bad Request",
+            {
+                code: "InvalidParameterException",
+                retryable: true
+            }
+        );
+        callback(null, response);
+    }
+
+    //region recaptcha
+    // var recaptchaField = "g-recaptcha-response",
+    //     disableRecaptchaKey = process.env.G_RECAPTCHA_IGNORE_KEY,
+    //     recaptchaValidationKey = process.env.G_RECAPTCHA_SECRET_ACCESS_KEY;
+
+    //Ignore recaptcha if override key supplied
+    // if (!"recaptchaValidationKey" in event.body ||
+    //     event.body[recaptchaValidationKey] !== recaptchaValidationKey)
+    // {
+    //     //Ensure recaptcha valid
+    //     if (!"recaptchaField" in event.body || event.body[recaptchaField] !== "") {
+            
+    //     }
+    // }
+    //endregion recaptcha
+
+    //region Validate POST
+    var honeyPotField = "qms-email-check",
+        reqfields = ["bodyData", "toEmailAddresses", "sourceEmail"];
+
+    // Define valid response, body in event with required fields
+    if (!reqfields.every((p) => p in event.body && event.body[p] !== "")) {
+        //Missing params
+        let response = responseBuilder(
             400,
             `Missing required parameters. Required fields include: ${reqfields.join(", ")}`,
             {
@@ -32,7 +58,7 @@ exports.sendEmail = (event, context, callback) => {
     //endregion Validate POST
 
     if (honeyPotField in event.body && event.body[honeyPotField] !== "") {
-        response = responseBuilder(
+        let response = responseBuilder(
             400,
             "Invalid request",
             {
@@ -70,7 +96,7 @@ exports.sendEmail = (event, context, callback) => {
     // region send mail
     mailer.deliver(emailParams, function (err, data) {
         //If error it will overwrite success
-        response = responseBuilder(200, "Mail sent successfully", err);
+        let response = responseBuilder(200, "Mail sent successfully", err);
         callback(null, response);
     });
     // endregion send mail
