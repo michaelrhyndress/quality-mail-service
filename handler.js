@@ -22,22 +22,6 @@ exports.sendEmail = (event, context, callback) => {
         callback(null, response);
     }
 
-    //region recaptcha
-    // var recaptchaField = "g-recaptcha-response",
-    //     disableRecaptchaKey = process.env.G_RECAPTCHA_IGNORE_KEY,
-    //     recaptchaValidationKey = process.env.G_RECAPTCHA_SECRET_ACCESS_KEY;
-
-    //Ignore recaptcha if override key supplied
-    // if (!"recaptchaValidationKey" in event.body ||
-    //     event.body[recaptchaValidationKey] !== recaptchaValidationKey)
-    // {
-    //     //Ensure recaptcha valid
-    //     if (!"recaptchaField" in event.body || event.body[recaptchaField] !== "") {
-            
-    //     }
-    // }
-    //endregion recaptcha
-
     //region Validate POST
     var honeyPotField = "qms-email-check",
         reqfields = ["bodyData", "toEmailAddresses", "sourceEmail"];
